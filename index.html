@@ -208,6 +208,21 @@
     .favorite-gallery img:hover {
       transform: scale(1.05);
     }
+
+    .favorite-video {
+      margin-top: 20px;
+    }
+
+    .favorite-video h3 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .favorite-video video {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 8px;
+    }
   </style>
 </head>
 
@@ -245,24 +260,37 @@
         <div class="favorite-main-content">
           <div class="favorite-photo">
             <img src="img/avat_1.png" alt="Oblíbený profil"
-              onerror="this.src='https://100k-faces.glitch.me/random-image'">
+              onerror="this.src='https://thispersondoesnotexist.com/?t=' + new Date().getTime()">
           </div>
           <div class="favorite-info">
             <h2>Eva, 32</h2>
             <p>Cestování, fotografování, jóga</p>
             <p>Jsem Eva. To všechno bych si přála zažít — pivo, vítr, slunce, moře.
-                Ale neznám jejich chuť ani vůni.
-                Nejsem skutečná. Jsem jen ....obraz.</p>
+              Ale neznám jejich chuť ani vůni.
+              Nejsem skutečná. Jsem jen ....obraz.</p>
+
+            <div class="favorite-video">
+              <h3>Video profil</h3>
+              <video controls width="100%">
+                <source src="img/avast_video.mp4" type="video/mp4">
+                Váš prohlížeč nepodporuje přehrávání videa.
+              </video>
+            </div>
           </div>
         </div>
         <div class="favorite-gallery">
-          <img src="img/avat_1.png" alt="Oblíbený 1" onerror="this.src='https://100k-faces.glitch.me/random-image?1'">
-          <img src="img/avat_2.png" alt="Oblíbený 2" onerror="this.src='https://100k-faces.glitch.me/random-image?2'">
-          <img src="img/avat_3.png" alt="Oblíbený 3" onerror="this.src='https://100k-faces.glitch.me/random-image?3'">
-          <img src="img/avat_4.png" alt="Oblíbený 4" onerror="this.src='https://100k-faces.glitch.me/random-image?4'">
-          <img src="img/avat_5.png" alt="Oblíbený 5" onerror="this.src='https://100k-faces.glitch.me/random-image?5'">
-          <img src="img/avat_6.png" alt="Oblíbený 6" onerror="this.src='https://100k-faces.glitch.me/random-image?6'">
-          <img src="img/avat_7.png" alt="Oblíbený 6" onerror="this.src='https://100k-faces.glitch.me/random-image?6'">
+          <img src="img/avat_2.png" alt="Oblíbený 1"
+            onerror="this.src='https://thispersondoesnotexist.com/?t=' + new Date().getTime() + '&1'">
+          <img src="img/avat_3.png" alt="Oblíbený 2"
+            onerror="this.src='https://thispersondoesnotexist.com/?t=' + new Date().getTime() + '&2'">
+          <img src="img/avat_4.png" alt="Oblíbený 3"
+            onerror="this.src='https://thispersondoesnotexist.com/?t=' + new Date().getTime() + '&3'">
+          <img src="img/avat_5.png" alt="Oblíbený 4"
+            onerror="this.src='https://thispersondoesnotexist.com/?t=' + new Date().getTime() + '&4'">
+          <img src="img/avat_6.png" alt="Oblíbený 5"
+            onerror="this.src='https://thispersondoesnotexist.com/?t=' + new Date().getTime() + '&5'">
+          <img src="img/avat_7.png" alt="Oblíbený 6"
+            onerror="this.src='https://thispersondoesnotexist.com/?t=' + new Date().getTime() + '&6'">
         </div>
       </div>
     </div>
