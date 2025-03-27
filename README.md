@@ -1,0 +1,1 @@
+# fotky-test-avatarka
