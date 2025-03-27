@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avatar Tinder</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .tabs {
+      display: flex;
+      background-color: #fff;
+      border-bottom: 1px solid #ddd;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .tab {
+      padding: 15px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      color: #666;
+      border-bottom: 3px solid transparent;
+    }
+
+    .tab.active {
+      color: #4CAF50;
+      border-bottom: 3px solid #4CAF50;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 20px 0;
+      flex-grow: 1;
+    }
+
+    .tab-content.active {
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .photo {
+      width: 100%;
+      height: 400px;
+      overflow: hidden;
+    }
+
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .info {
+      padding: 20px;
+    }
+
+    .info h2 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .info p {
+      color: #666;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    button {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+    }
+
+    .btn-reject {
+      background-color: #ff4444;
+      color: white;
+    }
+
+    .btn-like {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    /* Styly pro záložku Oblíbené */
+    .favorites-container {
+      width: 100%;
+      max-width: 800px;
+      padding: 20px;
+    }
+
+    .favorite-main {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .favorite-main-content {
+      display: flex;
+      flex-direction: row;
+    }
+
+    @media (max-width: 768px) {
+      .favorite-main-content {
+        flex-direction: column;
+      }
+    }
+
+    .favorite-photo {
+      width: 50%;
+      min-height: 300px;
+    }
+
+    @media (max-width: 768px) {
+      .favorite-photo {
+        width: 100%;
+      }
+    }
+
+    .favorite-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .favorite-info {
+      width: 50%;
+      padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .favorite-info {
+        width: 100%;
+      }
+    }
+
+    .favorite-info h2 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    .favorite-info p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .favorite-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .favorite-gallery img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .favorite-gallery img:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="tabs">
+    <div class="tab active" data-tab="swipe">Procházet</div>
+    <div class="tab" data-tab="favorites">Oblíbené</div>
+  </div>
+
+  <div class="tab-content active" id="swipe-content">
+    <div class="container">
+      <div class="card">
+        <div class="photo">
+          <img id="avatar" src="" alt="Avatar">
+        </div>
+        <div class="info">
+          <h2>Jana, 25</h2>
+          <p>Cestování, fotografování, jóga</p>
+        </div>
+        <div class="buttons">
+          <button class="btn-reject">
+            <i class="fas fa-times"></i>
+          </button>
+          <button class="btn-like">
+            <i class="fas fa-heart"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="favorites-content">
+    <div class="favorites-container">
+      <div class="favorite-main">
+        <div class="favorite-main-content">
+          <div class="favorite-photo">
+            <img src="img_fav_main.jpg" alt="Oblíbený profil"
+              onerror="this.src='https://100k-faces.glitch.me/random-image'">
+          </div>
+          <div class="favorite-info">
+            <h2>Tereza, 28</h2>
+            <p>Cestování, fotografování, jóga</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam auctor, nisl eget ultricies tincidunt,
+              nisl nisl aliquam nisl, eget ultricies nisl nisl eget nisl.</p>
+          </div>
+        </div>
+        <div class="favorite-gallery">
+          <img src="img/avat_1.png" alt="Oblíbený 1" onerror="this.src='https://100k-faces.glitch.me/random-image?1'">
+          <img src="img/avat_2.png" alt="Oblíbený 2" onerror="this.src='https://100k-faces.glitch.me/random-image?2'">
+          <img src="img/avat_3.png" alt="Oblíbený 3" onerror="this.src='https://100k-faces.glitch.me/random-image?3'">
+          <img src="img/avat_4.png" alt="Oblíbený 4" onerror="this.src='https://100k-faces.glitch.me/random-image?4'">
+          <img src="img/avat_5.png" alt="Oblíbený 5" onerror="this.src='https://100k-faces.glitch.me/random-image?5'">
+          <img src="img/avat_6.png" alt="Oblíbený 6" onerror="this.src='https://100k-faces.glitch.me/random-image?6'">
+          <img src="img/avat_7.png" alt="Oblíbený 6" onerror="this.src='https://100k-faces.glitch.me/random-image?6'">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Funkce pro generování náhodného věku mezi min a max
+    function getRandomAge(min = 18, max = 45) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // Funkce pro náhodný výběr pohlaví
+    function getRandomGender() {
+      return Math.random() > 0.5 ? 'male' : 'female';
+    }
+
+    // Pole českých jmen
+    const maleNames = [
+      'Jan', 'Petr', 'Jiří', 'Josef', 'Pavel', 'Martin', 'Tomáš', 'Jaroslav', 'Miroslav', 'Zdeněk',
+      'Václav', 'Michal', 'František', 'Jakub', 'David', 'Lukáš', 'Ondřej', 'Ladislav', 'Roman', 'Karel'
+    ];
+
+    const femaleNames = [
+      'Jana', 'Marie', 'Eva', 'Hana', 'Anna', 'Lenka', 'Kateřina', 'Lucie', 'Věra', 'Alena',
+      'Petra', 'Veronika', 'Jaroslava', 'Tereza', 'Martina', 'Jitka', 'Michaela', 'Zdeňka', 'Monika', 'Markéta'
+    ];
+
+    // Funkce pro náhodný výběr jména podle pohlaví
+    function getRandomName(gender) {
+      const names = gender === 'male' ? maleNames : femaleNames;
+      const randomIndex = Math.floor(Math.random() * names.length);
+      return names[randomIndex];
+    }
+
+    // Funkce pro načtení nového avatara
+    async function loadNewAvatar() {
+      const img = document.getElementById('avatar');
+      // Přidáme timestamp pro zabránění cachování
+      const timestamp = new Date().getTime();
+      const imageUrl = `https://100k-faces.glitch.me/random-image?t=${timestamp}`;
+
+      // Nejprve nastavíme src na prázdný string, aby se vynutilo nové načtení
+      img.src = '';
+      img.src = imageUrl;
+
+      // Počkáme na načtení obrázku pomocí Promise a události onload
+      await new Promise((resolve) => {
+        img.onload = resolve;
+        // Timeout jako fallback, pokud by se obrázek nenačetl
+        setTimeout(resolve, 2000);
+      });
+
+      // Použijeme pouze náhodné hodnoty
+      const analysis = {
+        age: getRandomAge(),
+        sex: getRandomGender()
+      };
+      console.log('Vygenerovaná data:', analysis);
+      updateProfile(analysis);
+    }
+
+    function updateProfile(analysis) {
+      const infoTitle = document.querySelector('.info h2');
+      // Použijeme náhodné jméno podle pohlaví
+      const name = getRandomName(analysis.sex);
+      infoTitle.textContent = `${name}, ${analysis.age}`;
+
+      // Aktualizujeme také záliby podle pohlaví
+      const infoDesc = document.querySelector('.info p');
+      if (analysis.sex === 'male') {
+        infoDesc.textContent = 'Fotbal, cestování, pivo';
+      } else {
+        infoDesc.textContent = 'Cestování, fotografování, jóga';
+      }
+    }
+
+    // Funkce pro zobrazení nového profilu
+    function newProfile() {
+      loadNewAvatar();
+    }
+
+    // Přidáme funkce pro tlačítka like/dislike
+    function likeProfile() {
+      console.log('Profil se vám líbí!');
+      newProfile();
+    }
+
+    function dislikeProfile() {
+      console.log('Profil se vám nelíbí.');
+      newProfile();
+    }
+
+    // Funkce pro přepínání záložek
+    function switchTab(tabId) {
+      // Deaktivujeme všechny záložky a obsah
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+
+      // Aktivujeme vybranou záložku a obsah
+      document.querySelector(`.tab[data-tab="${tabId}"]`).classList.add('active');
+      document.getElementById(`${tabId}-content`).classList.add('active');
+    }
+
+    // Načtení prvního profilu při spuštění stránky
+    window.onload = function () {
+      // Přidáme event listenery na tlačítka
+      document.querySelector('.btn-like').addEventListener('click', likeProfile);
+      document.querySelector('.btn-reject').addEventListener('click', dislikeProfile);
+
+      // Přidáme event listenery na záložky
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          switchTab(tab.getAttribute('data-tab'));
+        });
+      });
+
+      // Načteme první profil
+      newProfile();
+    };
+  </script>
+</body>
+
+</html>
